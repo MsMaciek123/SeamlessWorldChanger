@@ -1,0 +1,7 @@
+name: SeamlessWorldChanger
+version: '1.0.0'
+main: pl.msmaciek.seamlessWorldChanger.SeamlessWorldChanger
+api-version: '1.20'
+authors: [ MsMaciek ]
+depend:
+  - packetevents
