@@ -7,6 +7,7 @@ import com.github.retrooper.packetevents.protocol.world.dimension.DimensionType;
 import com.github.retrooper.packetevents.protocol.world.dimension.DimensionTypes;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerRespawn;
 import pl.msmaciek.seamlessWorldChanger.SeamlessWorldChanger;
+import pl.msmaciek.seamlessWorldChanger.structs.PlayerWorldData;
 
 import java.util.UUID;
 
@@ -22,9 +23,16 @@ public class RespawnPacketListener implements PacketListener {
 
         UUID uuid = event.getUser().getUUID();
 
-        DimensionType previousDimension = instance.getPlayerDimension().getOrDefault(uuid, DimensionTypes.OVERWORLD);
+        PlayerWorldData previousWorldData = instance.getPlayerWorldData().getOrDefault(uuid,
+                new PlayerWorldData(DimensionTypes.OVERWORLD, "minecraft:overworld"));
+        DimensionType previousDimension = previousWorldData.dimension();
+
+        // Bring back old world name in order to avoid issue with sound stopping when changing world (sometimes by respawning)
+        String previousWorldName = previousWorldData.worldName();
+        packet.setWorldName(previousWorldName);
+
         DimensionType newDimension = packet.getDimensionType();
-        instance.getPlayerDimension().put(uuid, newDimension);
+        instance.getPlayerWorldData().put(uuid, new PlayerWorldData(newDimension, previousWorldName));
 
         if(instance.getRealRespawnedPlayers().remove(uuid))
             return;

@@ -49,7 +49,7 @@ public class BukkitEvents implements Listener {
 
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent e) {
-        SeamlessWorldChanger.getInstance().getPlayerDimension().remove(
+        SeamlessWorldChanger.getInstance().getPlayerWorldData().remove(
             e.getPlayer().getUniqueId()
         );
     }

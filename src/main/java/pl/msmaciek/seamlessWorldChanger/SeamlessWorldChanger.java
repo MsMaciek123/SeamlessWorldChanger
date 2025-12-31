@@ -3,13 +3,13 @@ package pl.msmaciek.seamlessWorldChanger;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerCommon;
 import com.github.retrooper.packetevents.event.PacketListenerPriority;
-import com.github.retrooper.packetevents.protocol.world.dimension.DimensionType;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.msmaciek.seamlessWorldChanger.configs.ConfigLoader;
 import pl.msmaciek.seamlessWorldChanger.listeners.BukkitEvents;
 import pl.msmaciek.seamlessWorldChanger.listeners.JoinGamePacketListener;
 import pl.msmaciek.seamlessWorldChanger.listeners.RespawnPacketListener;
+import pl.msmaciek.seamlessWorldChanger.structs.PlayerWorldData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public final class SeamlessWorldChanger extends JavaPlugin {
     @Getter private ConfigLoader configLoader;
 
     @Getter private final ArrayList<UUID> realRespawnedPlayers = new ArrayList<>();
-    @Getter private final HashMap<UUID, DimensionType> playerDimension = new HashMap<>();
+    @Getter private final HashMap<UUID, PlayerWorldData> playerWorldData = new HashMap<>();
 
     private final ArrayList<PacketListenerCommon> packetListeners = new ArrayList<>();
 

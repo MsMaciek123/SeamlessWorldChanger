@@ -5,6 +5,7 @@ import com.github.retrooper.packetevents.event.PacketSendEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerJoinGame;
 import pl.msmaciek.seamlessWorldChanger.SeamlessWorldChanger;
+import pl.msmaciek.seamlessWorldChanger.structs.PlayerWorldData;
 
 import java.util.UUID;
 
@@ -18,6 +19,9 @@ public class JoinGamePacketListener implements PacketListener {
         var packet = new WrapperPlayServerJoinGame(event);
 
         UUID uuid = event.getUser().getUUID();
-        SeamlessWorldChanger.getInstance().getPlayerDimension().put(uuid, packet.getDimensionType());
+        SeamlessWorldChanger.getInstance().getPlayerWorldData().put(
+            uuid,
+            new PlayerWorldData(packet.getDimensionType(), packet.getWorldName())
+        );
     }
 }
