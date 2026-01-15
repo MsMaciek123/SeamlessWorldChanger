@@ -26,12 +26,14 @@ public class RespawnPacketListener implements PacketListener {
         PlayerWorldData previousWorldData = instance.getPlayerWorldData().getOrDefault(uuid,
                 new PlayerWorldData(DimensionTypes.OVERWORLD, "minecraft:overworld"));
         DimensionType previousDimension = previousWorldData.dimension();
+        DimensionType newDimension = packet.getDimensionType();
 
         // Bring back old world name in order to avoid issue with sound stopping when changing world (sometimes by respawning)
+        // do that only if dimension is the same
         String previousWorldName = previousWorldData.worldName();
-        packet.setWorldName(previousWorldName);
+        if(previousDimension.equals(newDimension))
+            packet.setWorldName(previousWorldName);
 
-        DimensionType newDimension = packet.getDimensionType();
         instance.getPlayerWorldData().put(uuid, new PlayerWorldData(newDimension, previousWorldName));
 
         if(instance.getRealRespawnedPlayers().remove(uuid))
